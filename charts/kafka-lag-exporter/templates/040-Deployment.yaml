@@ -8,7 +8,11 @@ metadata:
     {{- tpl (toYaml .Values.deploymentExtraLabels) . | nindent 4 }}
     {{- end }}
 spec:
-  replicas: 1
+  {{- if .Values.replicas }}
+  replicas:  {{ .Values.replicas }}
+  {{- else }}
+  replicas: 0
+  {{- end }}
   selector:
     matchLabels:
       {{- include "kafka-lag-exporter.selectorLabels" . | nindent 6 }}
